@@ -12,9 +12,9 @@
 - [x] Command line arguments can be taken in (10) 
 
 ### Modes/Command Line Arguments:
-  (None) = Default Setting, Prompt
-  1 = Dictionary Cracking
-  2 = Brute Force Cracking
+  - (None) = Default Setting, Prompt
+  - 1 = Dictionary Cracking
+  - 2 = Brute Force Cracking
 
 ### Formatting:
   `python3 masterCrack.py`
