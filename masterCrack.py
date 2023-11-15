@@ -1,82 +1,91 @@
 import sys
-pwd = ""
-crack = ""
-count = 0
-mode = 0
-digi = 99
+#count = 0
+found = False
+run = True
 
-def main(pwd = ""):
-    crack = ""
-    cnt = 0
-    #print(pwd)
-    #print("~~~~CRACKERMACHINE 4000~~~~")
-    #pwd = input("Enter a password: ")
-    mode = int(input("Enter 0 to change password\nEnter 1 to use dictionary\nEnter 2 to brute force\n"))
-    modeCheck(mode, pwd)
-    
+def main(inMode = -1):
+    global count
+    global found
+    global pwd
+
+    print("~~~~CRACKERMACHINE 9000~~~~")
+    if inMode == -1:
+        print("No mode given, using default setting...")
+    else:
+        print("Using mode " + inMode + "...")
+    pwd = input("Enter a password: ")
+    while run:
+        count = 0
+        if int(inMode) > 0:
+            checkMode(inMode)
+            inMode = -1
+        else:
+            mode = int(input("Enter 0 to change password\n"\
+                            "Enter 1 to use dictionary\n"\
+                            "Enter 2 to brute force\n"\
+                            "Enter 3 to quit\n"))
+            checkMode(mode)
+            
 def dictCrack(pwd):
-    global cnt
-    cnt = 0
-    #print(pwd)
+    global count
     passList = open("passList.txt", "r").read()
     list = passList.splitlines()
 
     for guess in list:
         #print(guess)
-        cnt += 1
+        count += 1
         if guess == pwd:
-            #crack = guess
             print("\nCracked password: ", guess)
-            print(cnt, "tries\n")
-            main(pwd)
-            exit()
-    if cnt == 10000:
-        print("Dictionary failed :( \nMaybe try brute forcing?\n")
-    main(pwd)
+            print(count, "tries\n")
+            break
+    if count == 10000:
+        print("\nDictionary failed :( \nMaybe try brute forcing?\n")
 
-def bruteCrack(pwd, size, cnt = 0, guess = ""):
+def bruteCrack(pwd, size, guess = ""):
     global count
-    #global cnt
-    #print(pwd, size, guess)
+    global found
+
     if size == 0:
         count += 1
-        #global digi
-        print(count)
-        print(guess)
+        #print(guess)
         if guess == pwd:
-            #crack = guess
             print("\nCracked password: " + guess)
             print(count, "tries\n")
-            main(pwd)
-            exit()
-        #elif guess.count('~') == len(guess):
-            #print("new digit!")
+            found = True
+            if found:
+                return
     else:
         for char in range(32, 127):
-            #cnt += 1
+            if found:
+                return
             newGuess = guess + chr(char)
-            bruteCrack(pwd, size - 1, cnt, newGuess)
+            bruteCrack(pwd, size - 1, newGuess)
+            
+def checkMode(mode):
+    global pwd
 
-def modeCheck(mode, pwd):
-    if mode == 0:
+    if int(mode) == 0:
         pwd = input("\nEnter new password: ")
-        #print(pwd)
-        main(pwd)
-    elif mode == 1:
+    elif int(mode) == 1:
+        #count = 0
         dictCrack(pwd)
-    elif mode == 2:
+    elif int(mode) == 2:
+        #count = 0
+        global found
+        found = False
         for x in range(1, 21):
-            global digi
-            digi = x
-            print("bigD", digi)
-            bruteCrack(pwd, x, count)
+            bruteCrack(pwd, x)  
+    elif int(mode) == 3:
+        global run
+        run = False
 
 if __name__ == '__main__':
-    print("~~~~CRACKERMACHINE 4000~~~~")
-    pwd = input("Enter a password: ")
+    #print("~~~~CRACKERMACHINE 9000~~~~")
+    #pwd = input("Enter a password: ")
     if len(sys.argv) > 1:
         for i in range(1, len(sys.argv)):
-            print(sys.argv[i])
+            #print(sys.argv[i])
+            mode = sys.argv[i]
+        main(mode)
     else:
-        main(pwd)
-
+        main()
