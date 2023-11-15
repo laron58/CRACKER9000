@@ -9,8 +9,8 @@ def main(inMode = -1):
     global count
     global found
     global pwd
-    global hMode
-    hMode = 0
+    global hashMode
+    hashMode = 0
 
     print("~~~~CRACKERMACHINE 9000~~~~")
     if inMode == -1:
@@ -24,13 +24,14 @@ def main(inMode = -1):
             checkMode(inMode)
             inMode = -1
         else:
+            #print("hashMode =", hashMode)
             mode = int(input("Enter 0 to change password\n"\
                             "Enter 1 to use dictionary\n"\
                             "Enter 2 to brute force\n"\
                             "Enter 3 to convert to MD5\n"\
                             "Enter 4 to convert to SHA256\n"\
                             "Enter 5 to quit\n"))
-            checkMode(mode, hMode)
+            checkMode(mode, hashMode)
             
 def dictCrack(pwd, hMode):
     global count
@@ -72,8 +73,8 @@ def bruteCrack(pwd, size, hMode, guess = ""):
             bruteCrack(pwd, size - 1, hMode, newGuess)
 
 def toHash(pwd, mode):
-    global hMode
-    hMode = mode
+    global hashMode
+    hashMode = mode
     if mode == 3:
         hash = hashlib.md5(pwd.encode()).hexdigest()
     elif mode == 4:
@@ -83,8 +84,11 @@ def toHash(pwd, mode):
             
 def checkMode(mode, hMode = 0):
     global pwd
+    #print("hMode =", hMode)
     if int(mode) == 0:
-        pwd = input("\nEnter new password: ")
+        global hashMode
+        hashMode = 0
+        pwd = input("\nEnter new password: ") 
     elif int(mode) == 1:
         #count = 0
         dictCrack(pwd, hMode)
