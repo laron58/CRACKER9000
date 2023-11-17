@@ -30,4 +30,4 @@
 ### Dependencies:
 `sys`
 `hashlib`
-`BCrypt`
+`BCrypt (pip install bcrypt)`
