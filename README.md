@@ -12,6 +12,11 @@
 - [x] BCrypt hashed passwords can be checked (5)
 - [x] Includes README.md (1)
 
+### Bonus features:
+- Attempt counter
+- Exception catching
+- "Cracking..." loading messages
+
 ### Modes/Command Line Arguments:
   - (None) = Default Setting, Prompt
   - 0 = Change password
