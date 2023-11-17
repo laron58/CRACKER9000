@@ -4,8 +4,8 @@ import bcrypt
 found = False
 run = True
 
-# If no arguments are passed from console, inMode == -1, runs prompt
-def main(inMode = -1):
+# If no mode is passed from console, inMode == -1; no password -> inPwd = ""
+def main(inMode = -1, inPwd = ""):
     global count
     global pwd
     global hashMode
@@ -14,11 +14,12 @@ def main(inMode = -1):
     print("~~~~~~~~~~~~~~~~~~~\n"\
           "~~~ CRACKER9000 ~~~\n"\
           "~~~~~~~~~~~~~~~~~~~")
-    if inMode == -1:
-        print("No mode given, using default setting...")
-    else:
+    if inMode != -1:
         print("Using mode " + str(inMode) + "...")
-    pwd = input("Enter a password: ")
+    if inPwd == "":
+        pwd = input("Enter a password: ")
+    else:
+        pwd = inPwd
     
     # Constaly prompts for next mode while run true (false when quit)
     while run:
@@ -147,9 +148,11 @@ def checkMode(mode, hMode = 0):
         print("Please enter a valid mode!")
 
 if __name__ == '__main__':
+    # No arguments given
     if len(sys.argv) == 1:
         main()
-    if len(sys.argv) == 2:
+    # Mode given
+    elif len(sys.argv) == 2:
         try:
             if 0 < int(sys.argv[1]) < 6:
                 main(int(sys.argv[1]))
@@ -159,6 +162,17 @@ if __name__ == '__main__':
         # Entered modes that aren't numbers
         except ValueError:
             print("Please enter a valid mode!")
+    # Mode and password given
+    elif len(sys.argv) == 3:
+        try:
+            if 0 < int(sys.argv[1]) < 6:
+                main(int(sys.argv[1]), sys.argv[2])
+            else:
+                # Entered modes that aren't 0 to 6
+                print("Please enter a valid mode!")
+        # Entered modes that aren't numbers
+        except ValueError:
+            print("Please enter a valid mode!")
     # Catching more than one console argument
     elif len(sys.argv) > 2:
-        print("Please enter only one mode!")
+        print("Please enter only one mode and a password!")
