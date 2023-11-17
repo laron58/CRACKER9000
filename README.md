@@ -1,4 +1,4 @@
-## Cracker9000, the Python Password Pounder
+## CRACKER9000, the Python Password Pounder
 ### 2023 CLHS Cybersecurity
 
 ### Rubric (51/51)
