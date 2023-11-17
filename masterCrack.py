@@ -4,6 +4,7 @@ import bcrypt
 found = False
 run = True
 
+# If no arguments are passed from console, inMode == -1, runs prompt
 def main(inMode = -1):
     global count
     global pwd
@@ -18,9 +19,11 @@ def main(inMode = -1):
     else:
         print("Using mode " + str(inMode) + "...")
     pwd = input("Enter a password: ")
-
+    
+    # Constaly prompts for next mode while run true (false when quit)
     while run:
         count = 0
+        # Passes console argument to checkMode and skips prompt
         if int(inMode) > 0:
             checkMode(inMode)
             inMode = -1
@@ -34,8 +37,10 @@ def main(inMode = -1):
                                 "Enter 5 to convert to BCrypt\n"\
                                 "Enter 6 to quit\n"))
                 checkMode(mode, hashMode)
+            # Entered modes that aren't numbers
             except ValueError:
                 print("Please enter a valid mode!")
+            # Catching keyboard interrupts
             except KeyboardInterrupt:
                 print("Cracking interrupted!")
             
@@ -50,6 +55,7 @@ def dictCrack(pwd, hMode):
                 print("\nCracked password:", guess)
                 print(count, "tries")
                 return
+            # Loading message for every 10 BCrypt attempts
             if count % 10 == 0:
                 print("Cracking...")
         elif hMode > 2:
@@ -70,12 +76,13 @@ def bruteCrack(pwd, size, hMode, guess = ""):
     if size == 0:
         count += 1
         if hMode == 5:
+            #print(bcrypt.checkpw(guess.encode(), pwd))
             if bcrypt.checkpw(guess.encode(), pwd):
-                #print(bcrypt.checkpw(guess.encode(), pwd))
                 found = True
                 print("\nCracked password:", guess)
                 print(count, "tries")
                 return
+            # Loading message for every 10 BCrypt attempts
             if count % 10 == 0:
                 print("Cracking...")
         elif hMode > 2:
@@ -88,17 +95,21 @@ def bruteCrack(pwd, size, hMode, guess = ""):
             print("\nCracked password:", guess)
             print(count, "tries")
             return
+        # Loading message for every 3m hashed attempts
         if hMode > 2 and count % 3000000 == 0:
             print("Cracking...")
+        # Loading message for every 7.5m attempts
         elif count % 7500000 == 0:
             print("Cracking...")
     else:
         for char in range(32, 127):
+            # Unraveling recursive function
             if found:
                 return
             newGuess = guess + chr(char)
             bruteCrack(pwd, size - 1, hMode, newGuess)
 
+# Hashes password based on mode
 def toHash(pwd, mode):
     if mode == 3:
         hash = hashlib.md5(pwd.encode()).hexdigest()
@@ -119,6 +130,7 @@ def checkMode(mode, hMode = 0):
     elif mode == 2:
         global found
         found = False
+        # Tries combinations up to 21 characters long
         for x in range(1, 21):
             bruteCrack(pwd, x, hMode)  
     elif mode == 6:
@@ -128,6 +140,9 @@ def checkMode(mode, hMode = 0):
         hashMode = mode
         pwd = toHash(pwd, mode)
         print("\nHashed password:", pwd)
+        if mode == 5:
+            print("Warning: BCrypt cracking is VERY slow.")
+    # Entered modes that aren't 0 to 6
     else:
         print("Please enter a valid mode!")
 
@@ -139,8 +154,11 @@ if __name__ == '__main__':
             if 0 < int(sys.argv[1]) < 6:
                 main(int(sys.argv[1]))
             else:
+                # Entered modes that aren't 0 to 6
                 print("Please enter a valid mode!")
+        # Entered modes that aren't numbers
         except ValueError:
             print("Please enter a valid mode!")
+    # Catching more than one console argument
     elif len(sys.argv) > 2:
         print("Please enter only one mode!")
