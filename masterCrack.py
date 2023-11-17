@@ -10,7 +10,9 @@ def main(inMode = -1):
     global hashMode
     hashMode = 0
 
-    print("~~~~CRACKER 9000~~~~")
+    print("~~~~~~~~~~~~~~~~~~~\n"\
+          "~~~ CRACKER9000 ~~~\n"\
+          "~~~~~~~~~~~~~~~~~~~")
     if inMode == -1:
         print("No mode given, using default setting...")
     else:
