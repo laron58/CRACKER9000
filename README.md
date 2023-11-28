@@ -29,8 +29,12 @@
 
 ### Formatting:
   `python3 masterCrack.py`
-  `python3 masterCrack.py 1`
+  `python3 masterCrack.py {mode}`
+  `python3 masterCrack.py {mode} {password}`
+  
+  `python3 masterCrack.py`
   `python3 masterCrack.py 2`
+  `python3 masterCrack.py 1 hello`
 
 ### Dependencies:
 `sys`
