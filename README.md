@@ -31,6 +31,8 @@
   `python3 masterCrack.py`
   `python3 masterCrack.py {mode}`
   `python3 masterCrack.py {mode} {password}`
+
+  Examples:
   
   `python3 masterCrack.py`
   `python3 masterCrack.py 2`
