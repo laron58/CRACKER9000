@@ -9,6 +9,7 @@ def main(inMode = -1, inPwd = ""):
     global count
     global pwd
     global hashMode
+    # Resets hashMode to 0 upon completion of hash crack
     hashMode = 0
 
     print("~~~~~~~~~~~~~~~~~~~\n"\
@@ -47,8 +48,10 @@ def main(inMode = -1, inPwd = ""):
             
 def dictCrack(pwd, hMode):
     global count
+    # Imports and splits the dictionary file
     passList = open("passList.txt", "r").read()
     list = passList.splitlines()
+    # Iterates through every item; hashes using hMode if necessary
     for guess in list:
         count += 1
         if hMode == 5:
@@ -76,6 +79,7 @@ def bruteCrack(pwd, size, hMode, guess = ""):
     global found
     if size == 0:
         count += 1
+        # Hash cracking with hMode if applicable
         if hMode == 5:
             #print(bcrypt.checkpw(guess.encode(), pwd))
             if bcrypt.checkpw(guess.encode(), pwd):
@@ -107,6 +111,7 @@ def bruteCrack(pwd, size, hMode, guess = ""):
             # Unraveling recursive function
             if found:
                 return
+            # Creates guesses for every ASCII character recursively based on size
             newGuess = guess + chr(char)
             bruteCrack(pwd, size - 1, hMode, newGuess)
 
