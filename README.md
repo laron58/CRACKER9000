@@ -1,5 +1,4 @@
 ## CRACKER9000, the Python Password Pounder
-### 2023 CLHS Cybersecurity
 
 ### Rubric (51/51)
 - [x] Usage of GitHub (3)
